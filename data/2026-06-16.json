@@ -1,0 +1,36 @@
+{
+  "date": "2026-06-16",
+  "generatedAt": "2026-06-16T09:00:00+09:00",
+  "mails": [],
+  "events": [
+    {"time":"종일","title":"[2동] 펜조립기 교육","src":"바이오제제2팀 공유캘린더"},
+    {"time":"종일","title":"충전 자재 운송밸리데이션 진행","src":"바이오제제2팀 공유캘린더"},
+    {"time":"종일","title":"[2동] 무균여과 테스트","src":"바이오제제2팀 공유캘린더"},
+    {"time":"종일","title":"PC60600","src":"생산계획"},
+    {"time":"종일","title":"B2-0007 Vial Filling","src":"생산계획"},
+    {"time":"종일","title":"정기훈증(1동) 훈증(무균충전실,PFS1)","src":"생산계획"},
+    {"time":"종일","title":"자재 폐기","src":"업무일정"}
+  ],
+  "teams": {
+    "bio2": {
+      "count": 9,
+      "msgs": [
+        {"author":"김범준","date":"06-13","content":"autoclave(3) TE04 온도센서 교체 후 검교정 완료 후 GP60602 filling cycle 완료되었습니다."},
+        {"author":"김대연","date":"06-13","content":"준작, 충전, 검사 작업자분들 금일 13:20 쉼터에 PFS(2) 신규양식 MBR 교육으로 모이겠습니다."},
+        {"author":"허종범","date":"06-12","content":"PFS충전기(1), PFS충전기(2) 고무전 대체품 Feasibility test 결재 요청. 실험재료비 4,600만원 비용 차감 필요."},
+        {"author":"김대연","date":"06-12","content":"민구 선임님, 결재 상신 부탁드립니다."},
+        {"author":"이재섭","date":"06-14","content":"NGTI30C GP60603 석션량 360mL 입니다."},
+        {"author":"조남권","date":"06-15","content":"포장작업자분들은 확인 부탁드립니다."},
+        {"author":"조남권","date":"06-15","content":"PFS충전기(2) drying 단계이며, 금일 종료시키고 마무리하겠습니다."},
+        {"author":"조남권","date":"06-15","content":"PFS충전기(2) CIPSIP 정상 종료했습니다. 작업자분들 참고부탁드립니다."},
+        {"author":"양창국","date":"06-15","content":"고생하셨어요"}
+      ]
+    },
+    "leader": {"count": 0, "msgs": []},
+    "issues": [
+      {"type":"urgent","text":"PFS충전기(1)(2) 고무전 Feasibility test 결재 상신 필요 — 예산 4,600만원 비용 차감"},
+      {"type":"review","text":"PFS충전기(2) CIPSIP 완료 (06-15) — 내일 충전 작업 재개 예정"},
+      {"type":"info","text":"GP60602 autoclave(3) TE04 온도센서 교체/검교정 완료 후 filling cycle 완료 (06-13)"}
+    ]
+  }
+}
