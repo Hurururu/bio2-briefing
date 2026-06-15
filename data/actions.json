@@ -1,0 +1,5 @@
+[
+  { "id": 1, "text": "GP60594 이물검사 불량률 원인 분석 및 조치 방향 확인", "priority": "p1", "done": false, "date": "2026-06-15" },
+  { "id": 2, "text": "PFS충전기 고무전 Feasibility test 결재 상신 완료 여부 확인 (민구 선임)", "priority": "p2", "done": false, "date": "2026-06-15" },
+  { "id": 3, "text": "PFS충전기(2) CIPSIP 완료 — 내일 작업 재개 준비 상태 확인", "priority": "p2", "done": false, "date": "2026-06-15" }
+]
