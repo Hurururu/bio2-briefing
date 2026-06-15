@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>바이오제제2팀 AI 브리핑</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --primary: #E8736A;
+    --primary-light: #FDECEA;
+    --primary-dark: #C0524A;
+    --bg: #F7F8FA;
+    --card: #FFFFFF;
+    --text: #1A1A2E;
+    --text-sub: #6B7280;
+    --border: #E5E7EB;
+    --red: #EF4444; --red-bg: #FEF2F2;
+    --orange: #F97316; --orange-bg: #FFF7ED;
+    --yellow: #EAB308; --yellow-bg: #FEFCE8;
+    --blue: #3B82F6; --blue-bg: #EFF6FF;
+    --green: #22C55E; --green-bg: #F0FDF4;
+    --gray: #6B7280; --gray-bg: #F9FAFB;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; }
+
+  /* ── 헤더 ── */
+  .header { background: var(--primary); color: white; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(232,115,106,0.3); }
+  .header-title { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+  .header-sub { font-size: 12px; opacity: 0.85; margin-top: 2px; }
+  .header-date { font-size: 12px; opacity: 0.9; text-align: right; }
+
+  /* ── 탭 ── */
+  .tabs { background: var(--card); border-bottom: 1px solid var(--border); display: flex; overflow-x: auto; padding: 0 16px; }
+  .tab { padding: 12px 18px; font-size: 13px; font-weight: 600; color: var(--text-sub); cursor: pointer; border-bottom: 2.5px solid transparent; white-space: nowrap; transition: all 0.15s; }
+  .tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+  .tab:hover:not(.active) { color: var(--text); }
+
+  /* ── 콘텐츠 ── */
+  .content { padding: 16px; max-width: 900px; margin: 0 auto; }
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ── 카드 ── */
+  .card { background: var(--card); border-radius: 12px; border: 1px solid var(--border); margin-bottom: 12px; overflow: hidden; }
+  .card-header { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .card-title { font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+  .card-body { padding: 12px 16px; }
+  .card-count { font-size: 11px; color: var(--text-sub); background: var(--bg); border-radius: 20px; padding: 2px 8px; }
+
+  /* ── 날짜 선택기 ── */
+  .date-nav { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
+  .date-nav button { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 6px 12px; font-size: 12px; cursor: pointer; color: var(--text); }
+  .date-nav button:hover { border-color: var(--primary); color: var(--primary); }
+  .date-nav .date-display { font-size: 14px; font-weight: 700; flex: 1; text-align: center; }
+  .today-btn { background: var(--primary) !important; color: white !important; border-color: var(--primary) !important; }
+
+  /* ── 브리핑 아이템 ── */
+  .brief-item { padding: 10px 0; border-bottom: 1px solid var(--border); display: flex; gap: 10px; }
+  .brief-item:last-child { border-bottom: none; }
+  .brief-badge { flex-shrink: 0; width: 6px; border-radius: 3px; background: var(--gray); }
+  .brief-badge.critical { background: var(--red); }
+  .brief-badge.urgent { background: var(--orange); }
+  .brief-badge.review { background: var(--yellow); }
+  .brief-badge.calendar { background: var(--blue); }
+  .brief-badge.info { background: var(--green); }
+  .brief-content { flex: 1; min-width: 0; }
+  .brief-meta { display: flex; align-items: center; gap: 6px; margin-bottom: 3px; flex-wrap: wrap; }
+  .brief-time { font-size: 11px; color: var(--text-sub); font-variant-numeric: tabular-nums; }
+  .brief-from { font-size: 11px; color: var(--text-sub); }
+  .brief-tag { font-size: 10px; font-weight: 700; border-radius: 4px; padding: 1px 6px; }
+  .brief-tag.critical { background: var(--red-bg); color: var(--red); }
+  .brief-tag.urgent { background: var(--orange-bg); color: var(--orange); }
+  .brief-tag.review { background: var(--yellow-bg); color: var(--yellow); }
+  .brief-tag.calendar { background: var(--blue-bg); color: var(--blue); }
+  .brief-tag.info { background: var(--green-bg); color: var(--green); }
+  .brief-tag.fyi { background: var(--gray-bg); color: var(--gray); }
+  .brief-subject { font-size: 13px; font-weight: 600; margin-bottom: 3px; line-height: 1.4; }
+  .brief-body { font-size: 12px; color: var(--text-sub); line-height: 1.5; }
+  .brief-action { font-size: 11px; color: var(--primary); font-weight: 600; margin-top: 4px; }
+
+  /* ── 캘린더 아이템 ── */
+  .cal-item { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); align-items: flex-start; }
+  .cal-item:last-child { border-bottom: none; }
+  .cal-time { font-size: 11px; color: var(--text-sub); min-width: 80px; font-variant-numeric: tabular-nums; }
+  .cal-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--blue); flex-shrink: 0; margin-top: 4px; }
+  .cal-dot.plan { background: var(--green); }
+  .cal-dot.team { background: var(--primary); }
+  .cal-name { font-size: 13px; font-weight: 500; line-height: 1.4; }
+  .cal-src { font-size: 10px; color: var(--text-sub); }
+
+  /* ── Teams 메시지 ── */
+  .teams-msg { padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .teams-msg:last-child { border-bottom: none; }
+  .teams-meta { display: flex; gap: 6px; align-items: center; margin-bottom: 3px; }
+  .teams-author { font-size: 12px; font-weight: 700; color: var(--primary); }
+  .teams-date { font-size: 11px; color: var(--text-sub); }
+  .teams-content { font-size: 12px; color: var(--text); line-height: 1.5; }
+  .teams-issue { border-left: 3px solid var(--orange); padding-left: 8px; margin: 4px 0; }
+
+  /* ── 섹션 구분 ── */
+  .section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-sub); padding: 8px 0 4px; margin-top: 8px; }
+
+  /* ── 요약 배너 ── */
+  .summary-banner { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; border-radius: 12px; padding: 16px; margin-bottom: 12px; }
+  .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 10px; }
+  .summary-stat { text-align: center; }
+  .summary-num { font-size: 28px; font-weight: 800; line-height: 1; }
+  .summary-label { font-size: 11px; opacity: 0.85; margin-top: 2px; }
+
+  /* ── 액션 아이템 ── */
+  .action-item { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .action-item:last-child { border-bottom: none; }
+  .action-check { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--border); flex-shrink: 0; cursor: pointer; margin-top: 1px; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+  .action-check.done { background: var(--green); border-color: var(--green); }
+  .action-check.done::after { content: '✓'; color: white; font-size: 11px; font-weight: 700; }
+  .action-num { font-size: 11px; color: var(--text-sub); min-width: 20px; font-weight: 700; margin-top: 2px; }
+  .action-text { font-size: 13px; line-height: 1.4; }
+  .action-text.done { text-decoration: line-through; color: var(--text-sub); }
+  .action-priority { font-size: 10px; font-weight: 700; border-radius: 4px; padding: 1px 5px; margin-left: 6px; }
+  .action-priority.p1 { background: var(--red-bg); color: var(--red); }
+  .action-priority.p2 { background: var(--orange-bg); color: var(--orange); }
+
+  /* ── 히스토리 ── */
+  .history-day { background: var(--card); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 8px; overflow: hidden; }
+  .history-day-header { padding: 10px 14px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; transition: background 0.1s; }
+  .history-day-header:hover { background: var(--bg); }
+  .history-day-title { font-size: 13px; font-weight: 700; }
+  .history-day-meta { font-size: 11px; color: var(--text-sub); }
+  .history-day-body { padding: 0 14px 12px; border-top: 1px solid var(--border); display: none; }
+  .history-day-body.open { display: block; }
+  .chevron { transition: transform 0.2s; }
+  .chevron.open { transform: rotate(180deg); }
+
+  /* ── 주간 이슈 ── */
+  .issue-card { border-left: 3px solid var(--orange); background: var(--orange-bg); border-radius: 0 8px 8px 0; padding: 10px 12px; margin-bottom: 8px; }
+  .issue-title { font-size: 12px; font-weight: 700; color: var(--orange); margin-bottom: 4px; }
+  .issue-body { font-size: 12px; line-height: 1.5; }
+
+  /* ── 검색 ── */
+  .search-bar { display: flex; gap: 8px; margin-bottom: 12px; }
+  .search-input { flex: 1; border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; font-size: 13px; outline: none; }
+  .search-input:focus { border-color: var(--primary); }
+  .search-btn { background: var(--primary); color: white; border: none; border-radius: 8px; padding: 8px 14px; font-size: 13px; cursor: pointer; font-weight: 600; }
+
+  /* ── 빈 상태 ── */
+  .empty { text-align: center; padding: 40px 20px; color: var(--text-sub); }
+  .empty-icon { font-size: 36px; margin-bottom: 8px; }
+  .empty-text { font-size: 13px; }
+
+  /* ── 로딩 ── */
+  .loading { text-align: center; padding: 30px; color: var(--text-sub); font-size: 13px; }
+
+  /* ── 반응형 ── */
+  @media (max-width: 600px) {
+    .summary-num { font-size: 22px; }
+    .header-title { font-size: 15px; }
+    .tab { padding: 10px 12px; font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 헤더 -->
+<div class="header">
+  <div>
+    <div class="header-title">📋 바이오제제2팀 브리핑</div>
+    <div class="header-sub">동아ST · AI 비서 대시보드</div>
+  </div>
+  <div class="header-date" id="headerDate"></div>
+</div>
+
+<!-- 탭 -->
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('daily')">📬 일일 브리핑</div>
+  <div class="tab" onclick="switchTab('actions')">✅ 액션 아이템</div>
+  <div class="tab" onclick="switchTab('teams')">💬 Teams 주간</div>
+  <div class="tab" onclick="switchTab('history')">📅 히스토리</div>
+</div>
+
+<!-- 콘텐츠 -->
+<div class="content">
+
+  <!-- ── 일일 브리핑 탭 ── -->
+  <div class="page active" id="page-daily">
+    <div class="date-nav">
+      <button onclick="changeDate(-1)">◀ 전일</button>
+      <div class="date-display" id="currentDateDisplay"></div>
+      <button onclick="changeDate(1)">익일 ▶</button>
+      <button class="today-btn" onclick="goToday()">오늘</button>
+    </div>
+
+    <!-- 요약 배너 -->
+    <div class="summary-banner" id="summaryBanner">
+      <div style="font-size:13px;opacity:0.9;margin-bottom:4px">오늘의 브리핑 요약</div>
+      <div class="summary-grid">
+        <div class="summary-stat"><div class="summary-num" id="statCritical">0</div><div class="summary-label">🚨 중요 확인</div></div>
+        <div class="summary-stat"><div class="summary-num" id="statMails">0</div><div class="summary-label">📧 수신 메일</div></div>
+        <div class="summary-stat"><div class="summary-num" id="statEvents">0</div><div class="summary-label">📅 오늘 일정</div></div>
+      </div>
+    </div>
+
+    <!-- 중요 확인사항 -->
+    <div class="card" id="criticalCard">
+      <div class="card-header">
+        <div class="card-title">🚨 중요 확인사항</div>
+        <span class="card-count" id="criticalCount">0건</span>
+      </div>
+      <div class="card-body" id="criticalList">
+        <div class="empty"><div class="empty-icon">✅</div><div class="empty-text">중요 확인사항 없음</div></div>
+      </div>
+    </div>
+
+    <!-- 메일 목록 -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">📧 수신 메일</div>
+        <span class="card-count" id="mailCount">0건</span>
+      </div>
+      <div class="card-body" id="mailList">
+        <div class="empty"><div class="empty-icon">📭</div><div class="empty-text">메일 없음</div></div>
+      </div>
+    </div>
+
+    <!-- 캘린더 -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">📅 오늘 캘린더</div>
+        <span class="card-count" id="calCount">0건</span>
+      </div>
+      <div class="card-body" id="calList">
+        <div class="empty"><div class="empty-icon">📆</div><div class="empty-text">오늘 일정 없음</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 액션 아이템 탭 ── -->
+  <div class="page" id="page-actions">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">✅ 액션 아이템</div>
+        <span class="card-count" id="actionCount">0건</span>
+      </div>
+      <div class="card-body" id="actionList">
+        <div class="empty"><div class="empty-icon">🎉</div><div class="empty-text">모든 항목 완료!</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Teams 주간 탭 ── -->
+  <div class="page" id="page-teams">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">👥 2026 바이오제제2팀</div>
+        <span class="card-count" id="bio2Count">0건</span>
+      </div>
+      <div class="card-body" id="bio2MsgList">
+        <div class="empty"><div class="empty-icon">💬</div><div class="empty-text">데이터 없음</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">🏢 리더 그룹</div>
+        <span class="card-count" id="leaderCount">0건</span>
+      </div>
+      <div class="card-body" id="leaderMsgList">
+        <div class="empty"><div class="empty-icon">💬</div><div class="empty-text">데이터 없음</div></div>
+      </div>
+    </div>
+    <div class="card" id="issueCard" style="display:none">
+      <div class="card-header">
+        <div class="card-title">🚨 주간 이슈 요약</div>
+      </div>
+      <div class="card-body" id="issueList"></div>
+    </div>
+  </div>
+
+  <!-- ── 히스토리 탭 ── -->
+  <div class="page" id="page-history">
+    <div class="search-bar">
+      <input class="search-input" type="text" id="searchInput" placeholder="메일 제목, 발신자 검색..." oninput="searchHistory()">
+    </div>
+    <div id="historyList">
+      <div class="empty"><div class="empty-icon">📂</div><div class="empty-text">히스토리 데이터 없음</div></div>
+    </div>
+  </div>
+
+</div><!-- /content -->
+
+<script>
+// ════════════════════════════════════
+//  데이터 로드
+// ════════════════════════════════════
+let allData = {};      // { "2026-06-15": { mails:[], events:[], teams:{} }, ... }
+let actions = [];      // [{ id, text, priority, done, date }]
+let currentDate = '';
+
+const DATA_URL = './data/';  // data/ 폴더의 JSON 파일들
+
+async function loadData() {
+  try {
+    // 인덱스 파일 로드
+    const idxRes = await fetch(DATA_URL + 'index.json');
+    if (!idxRes.ok) { loadSampleData(); return; }
+    const idx = await idxRes.json();
+
+    // 각 날짜 데이터 로드 (최근 30일)
+    const recent = idx.dates.slice(-30);
+    for (const d of recent) {
+      try {
+        const res = await fetch(DATA_URL + d + '.json');
+        if (res.ok) allData[d] = await res.json();
+      } catch {}
+    }
+
+    // 액션 로드
+    try {
+      const aRes = await fetch(DATA_URL + 'actions.json');
+      if (aRes.ok) actions = await aRes.json();
+    } catch {}
+
+    renderAll();
+  } catch {
+    loadSampleData();
+  }
+}
+
+function loadSampleData() {
+  // 실제 데이터 없을 때 샘플 표시
+  const today = getLocalDate();
+  allData[today] = {
+    date: today,
+    mails: [
+      { time: '08:32', from: '양창국', subject: 'GP60594 이물검사 결과 검토 요청', body: '2차 자동이물검사 결과 검토 부탁드립니다. 불량률 10.83% 관련 대책 논의 필요합니다.', category: 'critical', action: '오전 중 검토 및 회신 필요' },
+      { time: '09:15', from: '김대연', subject: '충전파트 6·7월 휴일 작업계획 공유', body: '6월, 7월 휴일 작업자 명단 공유드립니다. 변동사항 있으면 연락 주세요.', category: 'info' },
+      { time: '10:40', from: '허종범', subject: 'PFS충전기 고무전 Feasibility test 결재 촉구', body: '실험재료비 4,600만원 잔여예산 소진 위해 결재 상신 부탁드립니다.', category: 'review', action: '결재 상신 여부 확인' },
+    ],
+    events: [
+      { time: '13:20', title: 'PFS(2) MBR 교육', location: '쉼터', source: 'team', allDay: false },
+      { time: '09:00', title: 'GP60594 이물검사 후속 점검', source: 'work', allDay: false },
+    ],
+    teams: {
+      bio2: { count: 15, msgs: [] },
+      leader: { count: 4, msgs: [
+        { date: '6/15', time: '오후 7:07', author: '이재섭', content: 'NGTI30C #GP60594 2차 자동이물검사 결과 보고. 1일차 불량률 55.53%, 2일차 (버블제거 후) 10.83%', isIssue: true },
+        { date: '6/15', time: '오후 7:18', author: '양창국', content: '내일 추후일정 점검해보시죠', isIssue: false },
+      ]},
+      issues: ['GP60594 이물검사 불량률 — 1일차 55%, 2일차 10.83%. 내일 일정 점검 지시', 'PFS 고무전 Feasibility test 결재 상신 여부 미확인']
+    }
+  };
+  actions = [
+    { id: 1, text: 'GP60594 이물검사 불량률 원인 분석 및 조치 방향 확인', priority: 'p1', done: false, date: today },
+    { id: 2, text: 'PFS충전기 고무전 결재 상신 완료 여부 확인 (민구 선임)', priority: 'p2', done: false, date: today },
+    { id: 3, text: 'PFS충전기(2) CIPSIP 완료 — 내일 작업 재개 준비 확인', priority: 'p2', done: false, date: today },
+  ];
+  renderAll();
+}
+
+// ════════════════════════════════════
+//  렌더링
+// ════════════════════════════════════
+function getLocalDate() {
+  const n = new Date();
+  return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`;
+}
+
+const WEEKDAY = ['일','월','화','수','목','금','토'];
+function formatDateLabel(d) {
+  const dt = new Date(d + 'T00:00:00');
+  const today = getLocalDate();
+  const label = d === today ? '오늘' : '';
+  return `${d} (${WEEKDAY[dt.getDay()]}) ${label}`;
+}
+
+function renderAll() {
+  if (!currentDate) currentDate = getLocalDate();
+  updateHeaderDate();
+  renderDaily();
+  renderActions();
+  renderTeams();
+  renderHistory();
+}
+
+function updateHeaderDate() {
+  const now = new Date();
+  document.getElementById('headerDate').innerHTML =
+    `${now.getFullYear()}.${now.getMonth()+1}.${now.getDate()}<br>${WEEKDAY[now.getDay()]}요일`;
+  document.getElementById('currentDateDisplay').textContent = formatDateLabel(currentDate);
+}
+
+// ── 일일 브리핑 ──
+function renderDaily() {
+  const d = allData[currentDate];
+  if (!d) {
+    document.getElementById('criticalList').innerHTML = '<div class="empty"><div class="empty-icon">📭</div><div class="empty-text">해당 날짜 데이터 없음</div></div>';
+    document.getElementById('mailList').innerHTML = '<div class="empty"><div class="empty-icon">📭</div><div class="empty-text">데이터 없음</div></div>';
+    document.getElementById('calList').innerHTML = '<div class="empty"><div class="empty-icon">📆</div><div class="empty-text">데이터 없음</div></div>';
+    document.getElementById('statCritical').textContent = '0';
+    document.getElementById('statMails').textContent = '0';
+    document.getElementById('statEvents').textContent = '0';
+    document.getElementById('criticalCount').textContent = '0건';
+    document.getElementById('mailCount').textContent = '0건';
+    document.getElementById('calCount').textContent = '0건';
+    return;
+  }
+
+  const mails = d.mails || [];
+  const events = d.events || [];
+  const critical = mails.filter(m => m.category === 'critical');
+
+  // 요약
+  document.getElementById('statCritical').textContent = critical.length;
+  document.getElementById('statMails').textContent = mails.length;
+  document.getElementById('statEvents').textContent = events.length;
+
+  // 중요 확인사항
+  document.getElementById('criticalCount').textContent = critical.length + '건';
+  if (critical.length === 0) {
+    document.getElementById('criticalList').innerHTML = '<div class="empty"><div class="empty-icon">✅</div><div class="empty-text">중요 확인사항 없음</div></div>';
+  } else {
+    document.getElementById('criticalList').innerHTML = critical.map(m => mailItemHTML(m, true)).join('');
+  }
+
+  // 전체 메일
+  document.getElementById('mailCount').textContent = mails.length + '건';
+  if (mails.length === 0) {
+    document.getElementById('mailList').innerHTML = '<div class="empty"><div class="empty-icon">📭</div><div class="empty-text">메일 없음</div></div>';
+  } else {
+    const byCategory = { urgent:[], review:[], deadline:[], info:[], fyi:[] };
+    mails.forEach(m => {
+      const c = m.category || 'fyi';
+      if (c === 'critical') return;
+      (byCategory[c] || byCategory.fyi).push(m);
+    });
+    let html = '';
+    const catLabels = { urgent:'🔴 긴급', review:'🟠 검토 요청', deadline:'⏰ 마감 임박', info:'🟡 현황 공유', fyi:'🔵 참조/FYI' };
+    for (const [cat, items] of Object.entries(byCategory)) {
+      if (items.length === 0) continue;
+      html += `<div class="section-label">${catLabels[cat]}</div>`;
+      html += items.map(m => mailItemHTML(m)).join('');
+    }
+    document.getElementById('mailList').innerHTML = html || '<div class="empty"><div class="empty-icon">📧</div><div class="empty-text">분류된 메일 없음</div></div>';
+  }
+
+  // 캘린더
+  document.getElementById('calCount').textContent = events.length + '건';
+  if (events.length === 0) {
+    document.getElementById('calList').innerHTML = '<div class="empty"><div class="empty-icon">📆</div><div class="empty-text">오늘 일정 없음</div></div>';
+  } else {
+    const sorted = [...events].sort((a,b) => a.time.localeCompare(b.time));
+    document.getElementById('calList').innerHTML = sorted.map(e => `
+      <div class="cal-item">
+        <div class="cal-time">${e.allDay ? '종일' : e.time}</div>
+        <div class="cal-dot ${e.source === 'plan' ? 'plan' : e.source === 'team' ? 'team' : ''}"></div>
+        <div><div class="cal-name">${e.title}</div>${e.location ? `<div class="cal-src">📍 ${e.location}</div>` : ''}</div>
+      </div>`).join('');
+  }
+}
+
+function mailItemHTML(m, highlight=false) {
+  const catClass = { critical:'critical', urgent:'urgent', review:'review', deadline:'urgent', info:'info', fyi:'fyi' }[m.category] || 'fyi';
+  const catLabel = { critical:'🚨 중요', urgent:'🔴 긴급', review:'🟠 검토', deadline:'⏰ 마감', info:'🟡 공유', fyi:'🔵 FYI' }[m.category] || 'FYI';
+  return `<div class="brief-item">
+    <div class="brief-badge ${catClass}"></div>
+    <div class="brief-content">
+      <div class="brief-meta">
+        <span class="brief-time">${m.time || ''}</span>
+        <span class="brief-from">${m.from || ''}</span>
+        <span class="brief-tag ${catClass}">${catLabel}</span>
+      </div>
+      <div class="brief-subject">${m.subject || ''}</div>
+      ${m.body ? `<div class="brief-body">${m.body}</div>` : ''}
+      ${m.action ? `<div class="brief-action">→ ${m.action}</div>` : ''}
+    </div>
+  </div>`;
+}
+
+// ── 액션 아이템 ──
+function renderActions() {
+  const pending = actions.filter(a => !a.done);
+  const done = actions.filter(a => a.done);
+  document.getElementById('actionCount').textContent = `${pending.length}/${actions.length}건`;
+
+  if (actions.length === 0) {
+    document.getElementById('actionList').innerHTML = '<div class="empty"><div class="empty-icon">🎉</div><div class="empty-text">모든 항목 완료!</div></div>';
+    return;
+  }
+
+  let html = '';
+  if (pending.length > 0) {
+    html += pending.map((a,i) => `
+      <div class="action-item">
+        <div class="action-check" onclick="toggleAction(${a.id})"></div>
+        <div class="action-num">${i+1}</div>
+        <div class="action-text">${a.text}<span class="action-priority ${a.priority}">${a.priority==='p1'?'긴급':'확인'}</span></div>
+      </div>`).join('');
+  }
+  if (done.length > 0) {
+    html += `<div class="section-label" style="margin-top:12px">완료</div>`;
+    html += done.map(a => `
+      <div class="action-item">
+        <div class="action-check done" onclick="toggleAction(${a.id})"></div>
+        <div class="action-num"></div>
+        <div class="action-text done">${a.text}</div>
+      </div>`).join('');
+  }
+  document.getElementById('actionList').innerHTML = html;
+}
+
+function toggleAction(id) {
+  const a = actions.find(x => x.id === id);
+  if (a) { a.done = !a.done; renderActions(); }
+}
+
+// ── Teams 주간 ──
+function renderTeams() {
+  // 최신 Teams 데이터 찾기
+  let teamsData = null;
+  const dates = Object.keys(allData).sort().reverse();
+  for (const d of dates) {
+    if (allData[d].teams) { teamsData = allData[d].teams; break; }
+  }
+
+  if (!teamsData) return;
+
+  const bio2 = teamsData.bio2 || { count:0, msgs:[] };
+  const leader = teamsData.leader || { count:0, msgs:[] };
+
+  document.getElementById('bio2Count').textContent = bio2.count + '건';
+  document.getElementById('leaderCount').textContent = leader.count + '건';
+
+  const renderMsgs = (msgs) => msgs.length === 0
+    ? '<div class="empty"><div class="empty-icon">💬</div><div class="empty-text">메시지 없음</div></div>'
+    : msgs.map(m => `
+        <div class="teams-msg ${m.isIssue ? 'teams-issue' : ''}">
+          <div class="teams-meta">
+            <span class="teams-author">${m.author}</span>
+            <span class="teams-date">${m.date} ${m.time}</span>
+            ${m.isIssue ? '<span class="brief-tag urgent">🚨 이슈</span>' : ''}
+          </div>
+          <div class="teams-content">${m.content}</div>
+        </div>`).join('');
+
+  document.getElementById('bio2MsgList').innerHTML = renderMsgs(bio2.msgs || []);
+  document.getElementById('leaderMsgList').innerHTML = renderMsgs(leader.msgs || []);
+
+  if (teamsData.issues && teamsData.issues.length > 0) {
+    document.getElementById('issueCard').style.display = '';
+    document.getElementById('issueList').innerHTML = teamsData.issues.map(iss =>
+      `<div class="issue-card"><div class="issue-body">• ${iss}</div></div>`
+    ).join('');
+  }
+}
+
+// ── 히스토리 ──
+function renderHistory(filter='') {
+  const dates = Object.keys(allData).sort().reverse();
+  if (dates.length === 0) {
+    document.getElementById('historyList').innerHTML = '<div class="empty"><div class="empty-icon">📂</div><div class="empty-text">히스토리 없음</div></div>';
+    return;
+  }
+
+  let html = '';
+  for (const d of dates) {
+    const data = allData[d];
+    const mails = (data.mails || []).filter(m =>
+      !filter || m.subject?.includes(filter) || m.from?.includes(filter) || m.body?.includes(filter)
+    );
+    if (filter && mails.length === 0) continue;
+    const critical = mails.filter(m => m.category === 'critical').length;
+    html += `
+      <div class="history-day">
+        <div class="history-day-header" onclick="toggleHistoryDay('${d}')">
+          <div>
+            <div class="history-day-title">${formatDateLabel(d)}</div>
+            <div class="history-day-meta">메일 ${mails.length}건${critical > 0 ? ` · 🚨 중요 ${critical}건` : ''}</div>
+          </div>
+          <span class="chevron" id="chev-${d}">▼</span>
+        </div>
+        <div class="history-day-body" id="hbody-${d}">
+          ${mails.length > 0 ? mails.map(m => mailItemHTML(m)).join('') : '<div class="empty"><div class="empty-text">메일 없음</div></div>'}
+        </div>
+      </div>`;
+  }
+  document.getElementById('historyList').innerHTML = html || '<div class="empty"><div class="empty-icon">🔍</div><div class="empty-text">검색 결과 없음</div></div>';
+}
+
+function toggleHistoryDay(d) {
+  const body = document.getElementById('hbody-' + d);
+  const chev = document.getElementById('chev-' + d);
+  body.classList.toggle('open');
+  chev.classList.toggle('open');
+}
+
+function searchHistory() {
+  renderHistory(document.getElementById('searchInput').value.trim());
+}
+
+// ── 탭 전환 ──
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  document.getElementById('page-' + tab).classList.add('active');
+}
+
+// ── 날짜 이동 ──
+function changeDate(delta) {
+  const d = new Date(currentDate + 'T00:00:00');
+  d.setDate(d.getDate() + delta);
+  currentDate = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  updateHeaderDate();
+  renderDaily();
+}
+
+function goToday() {
+  currentDate = getLocalDate();
+  updateHeaderDate();
+  renderDaily();
+}
+
+// 초기 로드
+currentDate = getLocalDate();
+loadData();
+</script>
+</body>
+</html>
