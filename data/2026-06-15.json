@@ -1,0 +1,41 @@
+{
+  "date": "2026-06-15",
+  "generatedAt": "2026-06-15T22:30:00+09:00",
+  "mails": [
+    {
+      "time": "17:02",
+      "from": "허종범",
+      "subject": "곽선임님 전화 요청",
+      "body": "곽선임님 전화 주세요",
+      "category": "info"
+    }
+  ],
+  "events": [],
+  "teams": {
+    "collectedAt": "2026-06-15T22:30:00+09:00",
+    "period": "6/8~6/15",
+    "bio2": {
+      "count": 15,
+      "msgs": [
+        { "date": "6/11", "time": "오후 5:21", "author": "김대연", "content": "충전파트 월 작업계획 공유드립니다. 6,7월 휴일 작업자 공지드리니 작업에 참고 부탁드립니다.", "isIssue": false },
+        { "date": "6/11", "time": "오후 6:28", "author": "김범준", "content": "Autoclave(2) 압력센서 교체 후 빈챔버로 멸균사이클 가동완료됐습니다.", "isIssue": true },
+        { "date": "6/12", "time": "오전 8:19", "author": "김대연", "content": "준작,충전,검사 작업자분들 금일 13:20 쉼터에 PFS(2) 신규양식 MBR 교육으로 모이겠습니다.", "isIssue": false },
+        { "date": "6/12", "time": "오전 11:33", "author": "허종범", "content": "PFS충전기(1),(2) 고무전 대체품 Feasibility test 자재수령 예산 실험재료비 4,600만원 남아있으니 담당자분은 빨리 결재올려서 비용 차감부탁드립니다.", "isIssue": true },
+        { "date": "6/15", "time": "오후 5:41", "author": "조남권", "content": "PFS충전기(2) drying 단계이며, 금일 종료시키고 마무리하겠습니다.", "isIssue": false },
+        { "date": "6/15", "time": "오후 6:52", "author": "조남권", "content": "PFS충전기(2) CIPSIP 정상 종료했습니다. 작업자분들 참고부탁드립니다.", "isIssue": false }
+      ]
+    },
+    "leader": {
+      "count": 4,
+      "msgs": [
+        { "date": "6/15", "time": "오후 7:00", "author": "이재섭", "content": "팀장님 혹시 퇴근 안하셨으면 외부반출 승인 부탁드리겠습니다!", "isIssue": false },
+        { "date": "6/15", "time": "오후 7:07", "author": "이재섭", "content": "NGTI30C #GP60594 2차 자동이물검사 결과 보고드립니다. 1일차 불량률 55.53%, 2일차(버블제거 후) 불량률 10.83%.", "isIssue": true },
+        { "date": "6/15", "time": "오후 7:18", "author": "양창국", "content": "내일 추후일정 점검해보시죠~~", "isIssue": true }
+      ]
+    },
+    "issues": [
+      "GP60594 이물검사 불량률 — 1일차 55.53%, 2일차 10.83%. 양창국 수석 내일 일정 점검 지시",
+      "PFS충전기(1)(2) 고무전 Feasibility test 결재 — 4,600만원 잔여예산, 민구 선임 상신 여부 미확인"
+    ]
+  }
+}
