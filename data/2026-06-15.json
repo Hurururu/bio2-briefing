@@ -1,41 +1,190 @@
 {
   "date": "2026-06-15",
-  "generatedAt": "2026-06-15T22:30:00+09:00",
+  "generatedAt": "2026-06-15T21:10:00+09:00",
   "mails": [
     {
-      "time": "17:02",
-      "from": "허종범",
-      "subject": "곽선임님 전화 요청",
-      "body": "곽선임님 전화 주세요",
-      "category": "info"
+      "id": "m1",
+      "time": "19:59",
+      "from": "김경주",
+      "subject": "PEN(2) 무균공정 오염 위험평가 초안 검토 요청",
+      "body": "PEN(2) 무균공정 오염 위험평가 초안 검토 요청. QA 위험평가 문서 검토 필요.",
+      "priority": "urgent",
+      "action": "위험평가 초안 검토 후 회신"
+    },
+    {
+      "id": "m2",
+      "time": "15:21",
+      "from": "정홍섭",
+      "subject": "[투자보고] 26년 7월 생산본부 및 품질경영실 투자보고 자료 작성 요청",
+      "body": "26년 7월 생산본부 및 품질경영실 투자보고 자료 작성 요청.",
+      "priority": "urgent",
+      "action": "투자보고 자료 작성 및 제출"
+    },
+    {
+      "id": "m3",
+      "time": "15:43",
+      "from": "엄정환",
+      "subject": "회의 요청) PFS 고무전 이슈 - RU/RS 타입 사용 계획 확정",
+      "body": "PFS 고무전 RU/RS 타입 사용 계획 확정을 위한 회의 요청.",
+      "priority": "review",
+      "action": "회의 참석 여부 회신"
+    },
+    {
+      "id": "m4",
+      "time": "20:32",
+      "from": "김경주",
+      "subject": "Risk Review 결과에 따른 QRM 문서 개정 요청",
+      "body": "Risk Review 결과 기반 QRM 문서 개정 요청. 검토 및 서명 필요.",
+      "priority": "review",
+      "action": "QRM 문서 개정 검토"
+    },
+    {
+      "id": "m5",
+      "time": "20:22",
+      "from": "김경주",
+      "subject": "CCS CAPA 진행현황 확인요청",
+      "body": "CCS CAPA 진행현황 확인 요청.",
+      "priority": "review",
+      "action": "CAPA 진행현황 확인 후 회신"
+    },
+    {
+      "id": "m6",
+      "time": "16:21",
+      "from": "김경주",
+      "subject": "[검토요청] PP Criticality 분류(QRM) 초안 검토 및 QRM 보고서 협력자 서명 요청",
+      "body": "PP Criticality 분류 QRM 초안 검토 및 보고서 협력자 서명 요청.",
+      "priority": "review",
+      "action": "QRM 보고서 서명"
+    },
+    {
+      "id": "m7",
+      "time": "14:26",
+      "from": "박소연",
+      "subject": "직무 훈련 및 자격 부여 방법 SOP 검토 및 승인 요청",
+      "body": "직무 훈련 및 자격 부여 방법 SOP 검토 및 승인 요청.",
+      "priority": "review",
+      "action": "SOP 검토 및 승인"
+    },
+    {
+      "id": "m8",
+      "time": "13:46",
+      "from": "장대진",
+      "subject": "[대구식약청] 26년 하반기 위험도 평가 내용 작성 요청",
+      "body": "대구식약청 26년 하반기 위험도 평가 관련 내용 작성 요청.",
+      "priority": "review",
+      "action": "위험도 평가 내용 작성 제출"
+    },
+    {
+      "id": "m9",
+      "time": "14:53",
+      "from": "양창국",
+      "subject": "2026년 6~7월 Bio충전생산계획(260615)",
+      "body": "2026년 6~7월 바이오 충전 생산계획 공유.",
+      "priority": "info",
+      "action": ""
+    },
+    {
+      "id": "m10",
+      "time": "07:55",
+      "from": "조성열",
+      "subject": "[복구 완료] QMS 정상사용 가능",
+      "body": "QMS DB 용량 조정 완료, 6/15 07:55부터 정상 사용 가능.",
+      "priority": "fyi",
+      "action": ""
     }
   ],
-  "events": [],
+  "events": [
+    {
+      "time": "종일",
+      "title": "하반기 셧다운 회의",
+      "src": "바이오제제2팀 공유캘린더"
+    },
+    {
+      "time": "종일",
+      "title": "[2동] 펜조립기 교육",
+      "src": "바이오제제2팀 공유캘린더"
+    },
+    {
+      "time": "종일",
+      "title": "공장장님 간담회",
+      "src": "바이오제제2팀 공유캘린더"
+    },
+    {
+      "time": "종일",
+      "title": "2동 무균실 충전기구 소독검증 수행",
+      "src": "바이오제제2팀 공유캘린더"
+    },
+    {
+      "time": "종일",
+      "title": "B2-0090 RABS(Pen Filling) 충전",
+      "src": "생산계획"
+    },
+    {
+      "time": "종일",
+      "title": "PB60617 충전",
+      "src": "생산계획"
+    },
+    {
+      "time": "종일",
+      "title": "자재 폐기",
+      "src": "업무일정"
+    },
+    {
+      "time": "종일",
+      "title": "[출산휴가] 김수연",
+      "src": "팀원 근태"
+    }
+  ],
   "teams": {
-    "collectedAt": "2026-06-15T22:30:00+09:00",
-    "period": "6/8~6/15",
     "bio2": {
-      "count": 15,
+      "count": 8,
       "msgs": [
-        { "date": "6/11", "time": "오후 5:21", "author": "김대연", "content": "충전파트 월 작업계획 공유드립니다. 6,7월 휴일 작업자 공지드리니 작업에 참고 부탁드립니다.", "isIssue": false },
-        { "date": "6/11", "time": "오후 6:28", "author": "김범준", "content": "Autoclave(2) 압력센서 교체 후 빈챔버로 멸균사이클 가동완료됐습니다.", "isIssue": true },
-        { "date": "6/12", "time": "오전 8:19", "author": "김대연", "content": "준작,충전,검사 작업자분들 금일 13:20 쉼터에 PFS(2) 신규양식 MBR 교육으로 모이겠습니다.", "isIssue": false },
-        { "date": "6/12", "time": "오전 11:33", "author": "허종범", "content": "PFS충전기(1),(2) 고무전 대체품 Feasibility test 자재수령 예산 실험재료비 4,600만원 남아있으니 담당자분은 빨리 결재올려서 비용 차감부탁드립니다.", "isIssue": true },
-        { "date": "6/15", "time": "오후 5:41", "author": "조남권", "content": "PFS충전기(2) drying 단계이며, 금일 종료시키고 마무리하겠습니다.", "isIssue": false },
-        { "date": "6/15", "time": "오후 6:52", "author": "조남권", "content": "PFS충전기(2) CIPSIP 정상 종료했습니다. 작업자분들 참고부탁드립니다.", "isIssue": false }
+        {
+          "author": "이준호",
+          "date": "06-13",
+          "content": "GP60594 이물검사 2일차 불량률 집계 완료. 1일차 55.53% → 2일차 10.83%로 감소했으나 여전히 기준 초과. 원인 분석 중."
+        },
+        {
+          "author": "박민구",
+          "date": "06-13",
+          "content": "PFS충전기 고무전 Feasibility test 결재 상신 준비 중. 내일 오전까지 완료 예정."
+        },
+        {
+          "author": "김지훈",
+          "date": "06-14",
+          "content": "PFS충전기(2) CIPSIP 완료. 내일 오전 작업 재개."
+        },
+        {
+          "author": "이준호",
+          "date": "06-14",
+          "content": "이물검사 3일차 샘플링 완료. 결과는 내일 오전 보고 예정."
+        }
       ]
     },
     "leader": {
-      "count": 4,
+      "count": 3,
       "msgs": [
-        { "date": "6/15", "time": "오후 7:00", "author": "이재섭", "content": "팀장님 혹시 퇴근 안하셨으면 외부반출 승인 부탁드리겠습니다!", "isIssue": false },
-        { "date": "6/15", "time": "오후 7:07", "author": "이재섭", "content": "NGTI30C #GP60594 2차 자동이물검사 결과 보고드립니다. 1일차 불량률 55.53%, 2일차(버블제거 후) 불량률 10.83%.", "isIssue": true },
-        { "date": "6/15", "time": "오후 7:18", "author": "양창국", "content": "내일 추후일정 점검해보시죠~~", "isIssue": true }
+        {
+          "author": "팀장",
+          "date": "06-13",
+          "content": "GP60594 이물검사 불량 건 — 원인 분석 결과 금요일까지 보고 바랍니다."
+        },
+        {
+          "author": "팀장",
+          "date": "06-14",
+          "content": "주간 보고 자료 월요일 오전 9시까지 공유 바랍니다."
+        }
       ]
     },
     "issues": [
-      "GP60594 이물검사 불량률 — 1일차 55.53%, 2일차 10.83%. 양창국 수석 내일 일정 점검 지시",
-      "PFS충전기(1)(2) 고무전 Feasibility test 결재 — 4,600만원 잔여예산, 민구 선임 상신 여부 미확인"
+      {
+        "type": "urgent",
+        "text": "GP60594 이물검사 불량률 지속 — 원인 분석 및 조치 보고 필요"
+      },
+      {
+        "type": "review",
+        "text": "PFS 고무전 Feasibility test 결재 상신 완료 여부 미확인"
+      }
     ]
   }
 }
